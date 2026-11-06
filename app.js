@@ -32,7 +32,8 @@
         el('td', { cls: 'n' }, [el('b', { text: i.to }), isNaN(df) ? null : el('div', { cls: df > 0 ? 'up' : 'dn', text: (df > 0 ? '▲ ' : '▼ ') + Math.abs(df).toFixed(2) })])
       ]));
     });
-    app.appendChild(tb);
+        if (d.ticketOnly) app.appendChild(el('p', { cls: 'm big', text: 'ต้นทุนเท่าเดิม — ขออนุมัติตั๋วที่จะเสนอราคาวันนี้' }));
+    else app.appendChild(tb);
     if (d.reason) app.appendChild(el('p', null, [el('b', { text: 'เหตุผล: ' }), d.reason]));
     app.appendChild(el('p', null, [el('b', { text: 'ครั้งนี้เสนอราคาด้วยตั๋ว' })]));
     var tk = el('div', { cls: 'tk' });
