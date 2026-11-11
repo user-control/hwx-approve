@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Highway X</title>
+<meta name="apple-mobile-web-app-title" content="Highway X">
+<meta name="application-name" content="Highway X">
+<meta name="theme-color" content="#ffffff">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="apple-touch-icon.png">
+<meta name="description" content="ระบบส่งราคาน้ำมันผ่าน LINE สำหรับเจ้าหน้าที่ Highway X">
+<meta property="og:title" content="Highway X – ระบบส่งราคาน้ำมัน">
+<meta property="og:description" content="สำหรับเจ้าหน้าที่ Highway X">
+<meta property="og:image" content="https://user-control.github.io/hwx-approve/app/og.png">
+<meta property="og:type" content="website">
+<style>
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; color:#111; background:#fff;
+         min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; }
+  .w { max-width:340px; padding:24px; }
+  img { width:96px; height:96px; border-radius:22px; box-shadow:0 2px 12px rgba(0,0,0,.12); }
+  h1 { font-size:20px; margin:16px 0 6px; } p { color:#666; font-size:15px; line-height:1.6; margin:6px 0; }
+  a.b { display:inline-block; margin-top:18px; background:#111; color:#fff; padding:12px 26px; border-radius:10px; text-decoration:none; font-weight:700; }
+  #add { display:none; text-align:left; background:#F5F5F5; border-radius:12px; padding:12px 16px; margin-top:16px; }
+</style>
+</head>
+<body>
+<div class="w">
+  <img src="apple-touch-icon.png" alt="">
+  <h1>Highway X</h1>
+  <p id="msg">กำลังเปิดระบบส่งราคา…</p>
+  <div id="add">
+    <p><b>เพิ่มไปหน้าจอโฮม</b></p>
+    <p>1. กดปุ่ม <b>แชร์</b> (สี่เหลี่ยมมีลูกศรขึ้น)<br>2. เลือก <b>เพิ่มไปยังหน้าจอโฮม</b><br>3. กด <b>เพิ่ม</b></p>
+  </div>
+  <a class="b" id="go" href="https://script.google.com/macros/s/AKfycbxx-CPc-yuSRJ-j9lKQIGJrmXgbI6EUJX5R2YP4jiSUZJ9_DTyLZgAWWcR4q5blEche/exec">เปิดระบบ</a>
+</div>
+<script>
+  var APP = document.getElementById('go').href;
+  if (location.hash === '#add') {
+    // หน้าสำหรับกด "เพิ่มไปยังหน้าจอโฮม": ลบ #add ออกจากที่อยู่ก่อน ไอคอนที่บันทึกจะได้เปิดระบบตรง ๆ
+    history.replaceState(null, '', location.pathname);
+    document.getElementById('msg').textContent = 'ระบบส่งราคาน้ำมันผ่าน LINE';
+    document.getElementById('add').style.display = 'block';
+  } else {
+    location.replace(APP);
+  }
+</script>
+</body>
+</html>
