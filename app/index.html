@@ -43,7 +43,7 @@
     document.getElementById('msg').textContent = 'ระบบส่งราคาน้ำมันผ่าน LINE';
     document.getElementById('add').style.display = 'block';
   } else {
-    location.replace(APP);
+    location.replace(APP + location.search); // ส่งต่อพารามิเตอร์ เช่น ?crs= (ปุ่มส่งเตือนในอีเมล)
   }
 </script>
 </body>
