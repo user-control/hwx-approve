@@ -29,13 +29,15 @@
       tb.appendChild(el('tr', null, [
         el('td', null, [i.name, i.now ? el('div', { cls: 'w', text: 'ตอนนี้เปลี่ยนเป็น ' + i.now + ' แล้ว' }) : null]),
         el('td', { cls: 'n', text: i.from }),
-        el('td', { cls: 'n' }, [el('b', { text: i.to }), isNaN(df) ? null : el('div', { cls: df > 0 ? 'up' : 'dn', text: (df > 0 ? '▲ ' : '▼ ') + Math.abs(df).toFixed(2) })])
+        el('td', { cls: 'n' }, [el('b', { text: i.to }), isNaN(df) ? null : el('div', { cls: df > 0 ? 'up' : 'dn', text: (df > 0 ? '▲ ' : '▼ ') + (d.kind === 'asphalt' ? Math.abs(df).toLocaleString('en-US') : Math.abs(df).toFixed(2)) })])
       ]));
     });
-        if (d.ticketOnly) app.appendChild(el('p', { cls: 'm big', text: 'ต้นทุนเท่าเดิม — ขออนุมัติตั๋วที่จะเสนอราคาวันนี้' }));
+    if (d.ticketOnly) app.appendChild(el('p', { cls: 'm big', text: 'ต้นทุนเท่าเดิม — ขออนุมัติตั๋วที่จะเสนอราคาวันนี้' }));
     else app.appendChild(tb);
     if (d.reason) app.appendChild(el('p', null, [el('b', { text: 'เหตุผล: ' }), d.reason]));
-    app.appendChild(el('p', null, [el('b', { text: 'ครั้งนี้เสนอราคาด้วยตั๋ว' })]));
+    var asp = d.kind === 'asphalt';
+    if (asp) app.insertBefore(el('p', { cls: 'm big', text: 'ต้นทุนยางมะตอย (บาท/ตัน · ยางถัง บาท/ถัง)' }), app.children[1]);
+    if (!asp) app.appendChild(el('p', null, [el('b', { text: 'ครั้งนี้เสนอราคาด้วยตั๋ว' })]));
     var tk = el('div', { cls: 'tk' });
     d.tickets.forEach(function (o) {
       var inp = el('input', { type: 'radio', name: 'tk', value: o.t });
@@ -43,7 +45,7 @@
       var tags = [o.changed ? 'ราคาใหม่' : '', o.current ? 'ใช้อยู่ตอนนี้' : '', o.suggest ? 'ผู้ขอแนะนำ' : ''].filter(Boolean).join(' · ');
       tk.appendChild(el('label', null, [inp, el('span', null, [el('b', { text: o.t }), ' FOA ' + o.foa, el('small', { text: tags })])]));
     });
-    app.appendChild(tk);
+    if (!asp) app.appendChild(tk);
     app.appendChild(el('p', null, [el('b', { text: 'หมายเหตุ ' }), el('span', { cls: 'sub', text: '(ไม่บังคับ)' })]));
     var note = el('textarea', { id: 'note', rows: '2', maxlength: '200', placeholder: 'เช่น ยืนยันตามใบแจ้งราคา' });
     app.appendChild(note);
@@ -65,7 +67,7 @@
         .then(function (r) {
           if (!r.ok) { st.textContent = r.msg; no.disabled = ok.disabled = false; return; }
           forget();
-          msg(a ? 'อนุมัติแล้ว — ต้นทุนถูกแก้ เสนอราคาตั๋ว ' + r.ticket + ' ราคาลูกค้าคำนวณใหม่แล้ว' : 'บันทึกว่าไม่อนุมัติแล้ว', 'big ' + (a ? 'g' : ''));
+          msg(a ? (asp ? 'อนุมัติแล้ว — ต้นทุนยางมะตอยถูกแก้ ราคาลูกค้าคำนวณใหม่แล้ว' : 'อนุมัติแล้ว — ต้นทุนถูกแก้ เสนอราคาตั๋ว ' + r.ticket + ' ราคาลูกค้าคำนวณใหม่แล้ว') : 'บันทึกว่าไม่อนุมัติแล้ว', 'big ' + (a ? 'g' : ''));
         })
         .catch(function () { st.textContent = 'เชื่อมต่อไม่ได้ — ตรวจอินเทอร์เน็ตแล้วกดใหม่'; no.disabled = ok.disabled = false; });
     }
